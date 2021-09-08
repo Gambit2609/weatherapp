@@ -24,10 +24,26 @@
         background: none;
         }
 
-        #searchInput {
+        .searchInput {
             border-bottom: 2px solid;
             font-size: 22px;
             margin-top: 20px;
+        }
+
+        .black {
+            border-color: black;
+        }
+
+        .gray {
+            border-color: gray;
+        }
+
+        .green {
+            border-color: green;
+        }
+
+        .red {
+            border-color: red;
         }
 
         #searchResult {

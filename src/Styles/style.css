@@ -96,10 +96,26 @@ html #root .appBody, body #root .appBody {
   background: none;
 }
 
-.citySelector .finderInputs #searchInput {
+.citySelector .finderInputs .searchInput {
   border-bottom: 2px solid;
   font-size: 22px;
   margin-top: 20px;
+}
+
+.citySelector .finderInputs .black {
+  border-color: black;
+}
+
+.citySelector .finderInputs .gray {
+  border-color: gray;
+}
+
+.citySelector .finderInputs .green {
+  border-color: green;
+}
+
+.citySelector .finderInputs .red {
+  border-color: red;
 }
 
 .citySelector .finderInputs #searchResult {

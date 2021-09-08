@@ -70,18 +70,16 @@ export function CityFinder({ cityList, setCityList }: Props) {
     return (
         <div className="finderInputs">
             <input
-                id="searchInput"
                 onChange={(e) => handleInputChange(e)}
                 value={city}
                 placeholder="search city"
                 type="text"
                 autoComplete="off"
-                style={isSearching ?
-                    { borderColor: 'gray' } :
+                className={isSearching ? "searchInput gray" :
                     searchResult.cityName === "" && city === "" ?
-                        { borderColor: 'black' } :
-                        searchResult.cityName !== "" ? { borderColor: 'green' } :
-                            { borderColor: 'red' }}
+                    "searchInput black" :
+                        searchResult.cityName !== "" ? "searchInput green" :
+                        "searchInput red"}
             />
             {city !== "" && (
                 <div id="searchResult" onClick={() => handleAddCity(searchResult)}>
