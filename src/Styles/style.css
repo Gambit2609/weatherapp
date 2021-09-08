@@ -102,9 +102,13 @@ html #root .appBody, body #root .appBody {
   margin-top: 20px;
 }
 
-.citySelector .finderInputs #resultInput {
-  font-size: 18px;
-  color: rgba(0, 0, 0, 0.8);
+.citySelector .finderInputs #searchResult {
+  border: none;
+  padding: 5px;
+  outline: none;
+  background: none;
+  font-size: 19px;
+  color: #505050;
   cursor: pointer;
 }
 

@@ -29,7 +29,8 @@ function App() {
     height: "100%",
     latitude: 0,
     longitude: 0,
-    zoom: 1
+    zoom: 1,
+    cursor: "none"
   });
 
   function handleRemoveCity(city: string): void {
@@ -50,12 +51,11 @@ function App() {
   }, [selectedCity]);
 
   useEffect(() => {
-    setViewportSettings(prev => ({ ...prev, latitude: weatherData.coord.lat, longitude: weatherData.coord.lon, zoom: 12 }))
+    setViewportSettings(prev => ({ ...prev, latitude: weatherData.coord.lat, longitude: weatherData.coord.lon, zoom: 10 }))
 
   }, [weatherData])
 
   
-
   async function getWeatherData(city: string) {
     let response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&mode=JSON&units=metric`)
     if (response.status === 200) {
@@ -66,9 +66,7 @@ function App() {
 
         return prev;
       });
-    } else {
-      console.log(`error ${response.status}`)
-    }
+    } 
   }
 
   return (

@@ -16,20 +16,27 @@
         display: grid;
         grid-template-columns: 1fr;
         width: 80%;
+
         input {
         border: none;
         padding: 5px;
         outline: none;
         background: none;
         }
+
         #searchInput {
             border-bottom: 2px solid;
             font-size: 22px;
             margin-top: 20px;
-        } 
-        #resultInput {
-            font-size: 18px;
-            color: rgba(0, 0, 0, 0.8);
+        }
+
+        #searchResult {
+            border: none;
+            padding: 5px;
+            outline: none;
+            background: none;
+            font-size: 19px; 
+            color: rgb(80, 80, 80);
             cursor: pointer;
         }
     }

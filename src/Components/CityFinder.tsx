@@ -42,7 +42,7 @@ export function CityFinder({ cityList, setCityList }: Props) {
         }
     }
 
-    async function handleCityValidation(cityToCheck: string) {
+    async function handleCitySearch(cityToCheck: string) {
         let reponse = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityToCheck}&appid=${apiKey}&mode=JSON&units=metric`);
         if (reponse.status === 200) {
             let data = await reponse.json();
@@ -54,14 +54,18 @@ export function CityFinder({ cityList, setCityList }: Props) {
 
     useEffect(() => {
         const debounce = setTimeout(() => {
-            handleCityValidation(city);
-            setTimeout(()=>setIsSearching(false) ,400)
+            handleCitySearch(city);
+            setTimeout(() => setIsSearching(false), 400)
         }, 700);
 
         if (city !== "") setIsSearching(true);
 
         return () => clearTimeout(debounce);
     }, [city])
+
+    //TODO 
+    // push styles from inline to CSS
+    // simplify ternary operator
 
     return (
         <div className="finderInputs">
@@ -79,14 +83,11 @@ export function CityFinder({ cityList, setCityList }: Props) {
                         searchResult.cityName !== "" ? { borderColor: 'green' } :
                             { borderColor: 'red' }}
             />
-            {city !== "" && <input
-                type="text"
-                value={searchResult.cityName ? `${searchResult.cityName},${searchResult.country} - click to add to list` :
-                    isSearching ? "searching" : "city not found"}
-                readOnly
-                onClick={() => handleAddCity(searchResult)}
-                id="resultInput"
-            />}
+            {city !== "" && (
+                <div id="searchResult" onClick={() => handleAddCity(searchResult)}>
+                    {searchResult.cityName ? `${searchResult.cityName},${searchResult.country} - click to add to list` :
+                        isSearching ? "searching" : "city not found"}
+                </div>)}
         </div>
     )
 }
