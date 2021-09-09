@@ -42,7 +42,7 @@ export function CityFinder({ cityList, setCityList }: Props) {
         }
     }
 
-    async function handleCityValidation(cityToCheck: string) {
+    async function handleCitySearch(cityToCheck: string) {
         let reponse = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityToCheck}&appid=${apiKey}&mode=JSON&units=metric`);
         if (reponse.status === 200) {
             let data = await reponse.json();
@@ -54,8 +54,8 @@ export function CityFinder({ cityList, setCityList }: Props) {
 
     useEffect(() => {
         const debounce = setTimeout(() => {
-            handleCityValidation(city);
-            setTimeout(()=>setIsSearching(false) ,400)
+            handleCitySearch(city);
+            setTimeout(() => setIsSearching(false), 400)
         }, 700);
 
         if (city !== "") setIsSearching(true);
@@ -63,30 +63,29 @@ export function CityFinder({ cityList, setCityList }: Props) {
         return () => clearTimeout(debounce);
     }, [city])
 
+    //TODO 
+    // push styles from inline to CSS
+    // simplify ternary operator
+
     return (
         <div className="finderInputs">
             <input
-                id="searchInput"
                 onChange={(e) => handleInputChange(e)}
                 value={city}
                 placeholder="search city"
                 type="text"
                 autoComplete="off"
-                style={isSearching ?
-                    { borderColor: 'gray' } :
+                className={isSearching ? "searchInput gray" :
                     searchResult.cityName === "" && city === "" ?
-                        { borderColor: 'black' } :
-                        searchResult.cityName !== "" ? { borderColor: 'green' } :
-                            { borderColor: 'red' }}
+                    "searchInput black" :
+                        searchResult.cityName !== "" ? "searchInput green" :
+                        "searchInput red"}
             />
-            {city !== "" && <input
-                type="text"
-                value={searchResult.cityName ? `${searchResult.cityName},${searchResult.country} - click to add to list` :
-                    isSearching ? "searching" : "city not found"}
-                readOnly
-                onClick={() => handleAddCity(searchResult)}
-                id="resultInput"
-            />}
+            {city !== "" && (
+                <div id="searchResult" onClick={() => handleAddCity(searchResult)}>
+                    {searchResult.cityName ? `${searchResult.cityName},${searchResult.country} - click to add to list` :
+                        isSearching ? "searching" : "city not found"}
+                </div>)}
         </div>
     )
 }
