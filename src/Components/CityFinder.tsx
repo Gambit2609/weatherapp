@@ -25,7 +25,6 @@ export function CityFinder({ cityList, setCityList }: Props) {
     }
 
     function handleAddCity(searchResult: fetchedCityData): void {
-
         if (cityList.some(x => x.toLocaleLowerCase() === searchResult.cityName.toLocaleLowerCase())) {
             alert("You already have this city on the list");
             setCity("");
@@ -44,6 +43,7 @@ export function CityFinder({ cityList, setCityList }: Props) {
 
     async function handleCitySearch(cityToCheck: string) {
         let reponse = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityToCheck}&appid=${apiKey}&mode=JSON&units=metric`);
+
         if (reponse.status === 200) {
             let data = await reponse.json();
             setSearchResult({ cityName: data.name, country: data.sys.country })
@@ -63,10 +63,6 @@ export function CityFinder({ cityList, setCityList }: Props) {
         return () => clearTimeout(debounce);
     }, [city])
 
-    //TODO 
-    // push styles from inline to CSS
-    // simplify ternary operator
-
     return (
         <div className="finderInputs">
             <input
@@ -81,11 +77,11 @@ export function CityFinder({ cityList, setCityList }: Props) {
                         searchResult.cityName !== "" ? "searchInput green" :
                         "searchInput red"}
             />
-            {city !== "" && (
+            {city && 
                 <div id="searchResult" onClick={() => handleAddCity(searchResult)}>
                     {searchResult.cityName ? `${searchResult.cityName},${searchResult.country} - click to add to list` :
                         isSearching ? "searching" : "city not found"}
-                </div>)}
+                </div>}
         </div>
     )
 }

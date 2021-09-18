@@ -12,11 +12,12 @@
     display: grid;
     justify-items: center;
     background-color: rgba(255, 255, 255, 0.9);
+    
     .finderInputs {
         display: grid;
         grid-template-columns: 1fr;
         width: 80%;
-
+        
         input {
         border: none;
         padding: 5px;

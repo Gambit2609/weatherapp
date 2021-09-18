@@ -21,8 +21,8 @@ const apiKey = "860170d7583a180f31943ee7f4307401"
 
 function App() {
 
-  const [selectedCity, setSelectedCity] = useState<string>("");
-  const [cityList, setCityList] = useState<string[]>([]);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [cities, setCities] = useState<string[]>(getCitiesFromLocalStorage);
   const [weatherData, setWeatherData] = useState<WeatherData>(weatherDataTemplate);
   const [viewportSettings, setViewportSettings] = useState({
     width: "100%",
@@ -32,15 +32,24 @@ function App() {
     zoom: 1
   });
 
+  function getCitiesFromLocalStorage():string[]{
+    let citiesFromLocalStorage = localStorage.getItem("cities");
+
+    return citiesFromLocalStorage ? JSON.parse(citiesFromLocalStorage) : [];
+  }
+
   function handleRemoveCity(city: string): void {
-    setCityList(prev => prev.filter(x => x !== city));
+    setCities(prev => prev.filter(x => x !== city));
   }
 
   function handleChangeSelectedCity(city: string) {
     setSelectedCity(city)
   }
 
-  useEffect(() => setSelectedCity(cityList[0]), [cityList]);
+  useEffect(() => {
+    setSelectedCity(cities[0]);
+    localStorage.setItem("cities", JSON.stringify(cities));
+  },[cities]);
 
   useEffect(() => {
     getWeatherData(selectedCity);
@@ -57,6 +66,7 @@ function App() {
 
   async function getWeatherData(city: string) {
     let response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&mode=JSON&units=metric`)
+
     if (response.status === 200) {
       let data = await response.json();
       setWeatherData(prev => {
@@ -72,17 +82,18 @@ function App() {
     <div className="appBody">
       <div className="citySelector">
         <CitySelector
-          cityList={cityList}
-          setCityList={setCityList}
+          cityList={cities}
+          setCityList={setCities}
           handleRemoveCity={handleRemoveCity}
           handleChangeSelectedCity={handleChangeSelectedCity}
         />
       </div>
-      {cityList.length ? <div className="weatherBoardMain">
-        <WeatherBoard
-          weatherData={weatherData}
-        />
-      </div> : ""}
+      {cities.length &&
+        <div className="weatherBoardMain">
+          <WeatherBoard
+            weatherData={weatherData}
+          />
+        </div>}
       <div className="mapboxBackground">
         <MapboxBackground viewport={viewportSettings} />
       </div>
